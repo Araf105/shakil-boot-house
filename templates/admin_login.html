@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Shakil Boot House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-900 text-gray-800 font-sans flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full">
+        <div class="text-center mb-6">
+            <h1 class="text-2xl font-black text-red-600">Shakil Boot House</h1>
+            <p class="text-xs text-gray-500 font-semibold mt-1">Admin Panel Secure Login</p>
+        </div>
+
+        {% if error %}
+        <div class="bg-red-50 border border-red-200 text-red-600 text-xs font-bold p-3 rounded-lg mb-4 text-center">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="/admin/login" method="POST" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Admin Username</label>
+                <input type="text" name="username" required placeholder="Enter username" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-red-600">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Admin Password</label>
+                <div class="relative">
+                    <input type="password" id="passwordInput" name="password" required placeholder="Enter password" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-red-600 pr-10">
+                    <button type="button" onclick="togglePassword()" class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-gray-500 hover:text-red-600 font-bold focus:outline-none">
+                        <span id="toggleText">Show</span>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-red-600 text-white font-bold py-3 rounded-xl hover:bg-red-500 shadow transition text-sm">
+                Login to Dashboard
+            </button>
+        </form>
+
+        <div class="flex justify-between items-center mt-6 text-xs">
+            <a href="/" class="text-gray-500 hover:text-red-600 font-medium">← Back to Website</a>
+            <a href="/admin/change-password" class="text-red-600 font-bold hover:underline">Change Password?</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            let passwordInput = document.getElementById('passwordInput');
+            let toggleText = document.getElementById('toggleText');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleText.innerText = 'Hide';
+            } else {
+                passwordInput.type = 'password';
+                toggleText.innerText = 'Show';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product - Shakil Boot House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <header class="bg-slate-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-amber-400">Add Product Wizard</h1>
+            <a href="/admin" class="text-sm bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700 font-medium">Back to Dashboard</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- Left Sidebar: Gender & Category Navigation -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 h-fit space-y-4">
+            <h3 class="font-bold text-slate-900 border-b pb-2">Select Gender</h3>
+            <div class="flex flex-col space-y-2">
+                <a href="/admin/add?gender=Men" class="px-4 py-2.5 rounded-lg font-medium transition {{ 'bg-amber-500 text-slate-900 font-bold shadow' if gender == 'Men' else 'bg-gray-50 hover:bg-gray-100 text-gray-700' }}">Men Footwear</a>
+                <a href="/admin/add?gender=Women" class="px-4 py-2.5 rounded-lg font-medium transition {{ 'bg-amber-500 text-slate-900 font-bold shadow' if gender == 'Women' else 'bg-gray-50 hover:bg-gray-100 text-gray-700' }}">Women Footwear</a>
+                <a href="/admin/add?gender=Kids" class="px-4 py-2.5 rounded-lg font-medium transition {{ 'bg-amber-500 text-slate-900 font-bold shadow' if gender == 'Kids' else 'bg-gray-50 hover:bg-gray-100 text-gray-700' }}">Kids Footwear</a>
+            </div>
+
+            <h3 class="font-bold text-slate-900 border-b pb-2 pt-4">Categories ({{ gender }})</h3>
+            <div class="flex flex-col space-y-1.5">
+                {% for sub in sub_categories %}
+                <a href="/admin/add?gender={{ gender }}&sub_cat={{ sub }}" class="text-sm px-3 py-2 rounded-lg transition {{ 'bg-slate-900 text-white font-semibold' if selected_sub == sub else 'hover:bg-gray-100 text-gray-600' }}">{{ sub }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Right Side: Final Product Details Form -->
+        <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-lg font-bold mb-4 text-slate-900 border-b pb-2">
+                Fill Details for: <span class="text-amber-600">{{ gender }} > {{ selected_sub if selected_sub else 'Please select a category from left' }}</span>
+            </h2>
+
+            {% if selected_sub %}
+            <form action="/admin/add?gender={{ gender }}&sub_cat={{ selected_sub }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Code</label>
+                        <input type="text" name="product_code" required placeholder="e.g. SBH-101" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Name</label>
+                        <input type="text" name="name" required placeholder="e.g. Formal Oxford Shoe" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Brand</label>
+                        <select name="brand" required class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-amber-500">
+                            <option value="" disabled selected>-- Select Brand --</option>
+                            {% for b in brands %}
+                            <option value="{{ b }}">{{ b }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Price (BDT)</label>
+                        <input type="number" name="price" required placeholder="1850" class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Image Upload (From Phone Gallery)</label>
+                        <input type="file" name="img_file" accept="image/*" class="w-full border rounded-lg px-3 py-1.5 text-sm bg-gray-50">
+                    </div>
+                </div>
+
+                <!-- Multiple Colors Selection -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Select Colors (Check multiple)</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 border p-3 rounded-lg bg-gray-50">
+                        {% for col in colors %}
+                        <label class="flex items-center space-x-2 text-sm">
+                            <input type="checkbox" name="colors" value="{{ col }}" class="rounded text-amber-500 focus:ring-amber-400">
+                            <span>{{ col }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Sizes Selection (Dynamic Checkboxes with Select All) -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-semibold uppercase text-gray-600">Sizes Selection ({{ gender }})</label>
+                        <label class="flex items-center space-x-1 text-xs font-bold text-amber-600 cursor-pointer">
+                            <input type="checkbox" id="selectAllSizes" onclick="toggleAllSizes(this)" class="rounded text-amber-500">
+                            <span>Select All Sizes</span>
+                        </label>
+                    </div>
+                    <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 border p-3 rounded-lg bg-gray-50">
+                        {% for s in available_sizes %}
+                        <label class="flex items-center space-x-1.5 text-sm">
+                            <input type="checkbox" name="sizes" value="{{ s }}" class="size-checkbox rounded text-amber-500 focus:ring-amber-400">
+                            <span>{{ s }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-xl hover:bg-amber-400 shadow transition">Save Product to Inventory</button>
+            </form>
+            {% else %}
+            <div class="text-center py-12 text-gray-400 font-medium">
+                <p class="text-lg">⬅ Please click and select a category from the left sidebar to proceed.</p>
+            </div>
+            {% endif %}
+        </div>
+
+    </main>
+
+    <script>
+        function toggleAllSizes(source) {
+            checkboxes = document.getElementsByClassName('size-checkbox');
+            for(let i=0; i<checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
+
+</body>
+</html>

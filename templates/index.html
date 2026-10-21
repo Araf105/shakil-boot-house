@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shakil Boot House - Premium Footwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-white text-gray-800 font-sans flex flex-col min-h-screen">
+
+    <!-- Header with Apex Style Dropdowns -->
+    <header class="border-b border-gray-200 bg-white sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            
+            <!-- Logo & Brand Name -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <a href="/"><img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="h-8 w-8 sm:h-10 sm:w-10 object-cover rounded-full shadow-sm border border-gray-200" onerror="this.style.display='none'"></a>
+                <a href="/" class="text-xl sm:text-2xl font-black tracking-wider text-red-600">Shakil Boot House</a>
+            </div>
+
+            <!-- Navigation Links with Apex Dropdowns -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold">
+                
+                <!-- Men Dropdown -->
+                <div class="relative group py-2">
+                    <a href="/?gender=Men" class="hover:text-red-600 transition flex items-center gap-1">Men</a>
+                    <div class="absolute top-full left-0 w-56 bg-white border border-gray-200 shadow-xl rounded-lg hidden group-hover:block py-2 z-50">
+                        <a href="/?gender=Men&category=Formal+Shoes" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Formal Shoes</a>
+                        <a href="/?gender=Men&category=Casual+Shoes" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Casual Shoes</a>
+                        <a href="/?gender=Men&category=Boots" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Boots</a>
+                        <a href="/?gender=Men&category=Canvas" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Canvas</a>
+                        <a href="/?gender=Men&category=Sports+Shoes" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Sports Shoes</a>
+                        <a href="/?gender=Men&category=Sandals" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Sandals</a>
+                        <a href="/?gender=Men&category=Sports+Sandals" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Sports Sandals</a>
+                    </div>
+                </div>
+
+                <!-- Women Dropdown -->
+                <div class="relative group py-2">
+                    <a href="/?gender=Women" class="hover:text-red-600 transition flex items-center gap-1">Women</a>
+                    <div class="absolute top-full left-0 w-56 bg-white border border-gray-200 shadow-xl rounded-lg hidden group-hover:block py-2 z-50">
+                        <a href="/?gender=Women&category=Heels" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Heels</a>
+                        <a href="/?gender=Women&category=Sandals" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Sandals</a>
+                        <a href="/?gender=Women&category=Sports+Shoe" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Sports Shoe</a>
+                        <a href="/?gender=Women&category=Canvas" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Canvas</a>
+                        <a href="/?gender=Women&category=Jutti" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Jutti</a>
+                        <a href="/?gender=Women&category=Pumpies" class="block px-4 py-2 text-xs hover:bg-gray-100 text-gray-700">Pumpies</a>
+                    </div>
+                </div>
+
+                <!-- Kids Dropdown -->
+                <div class="relative group py-2">
+                    <a href="/?gender=Kids" class="hover:text-red-600 transition flex items-center gap-1">Kids</a>
+                    <div class="absolute top-full left-0 w-56 bg-white border border-gray-200 shadow-xl rounded-lg hidden group-hover:block py-2 z-50">
+                        <div class="px-4 py-1 text-[11px] font-bold uppercase text-gray-400">Boys</div>
+                        <a href="/?gender=Kids&category=Shoes" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Shoes</a>
+                        <a href="/?gender=Kids&category=Sports+Shoes" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Sports Shoes</a>
+                        <a href="/?gender=Kids&category=Sandals" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Sandals</a>
+                        <a href="/?gender=Kids&category=School+Shoes" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Boy's School Shoes</a>
+                        <div class="border-t my-1"></div>
+                        <div class="px-4 py-1 text-[11px] font-bold uppercase text-gray-400">Girls</div>
+                        <a href="/?gender=Kids&category=Shoes" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Shoes</a>
+                        <a href="/?gender=Kids&category=Sandals" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Sandals</a>
+                        <a href="/?gender=Kids&category=School+Shoes" class="block px-4 py-1.5 text-xs hover:bg-gray-100 text-gray-700">Girl's School Shoes</a>
+                    </div>
+                </div>
+
+            </nav>
+
+            <!-- Right Icons: Search & Cart -->
+            <div class="flex items-center space-x-3 sm:space-x-5">
+                <form action="/" method="GET" class="flex items-center border rounded-full px-2.5 sm:px-3 py-1 bg-gray-50">
+                    <input type="text" name="q" placeholder="Search..." class="bg-transparent text-xs outline-none w-20 sm:w-36">
+                    <button type="submit" class="text-gray-500 hover:text-black">🔍</button>
+                </form>
+                <button class="text-xl text-gray-700 hover:text-red-600 relative" title="Cart">
+                    🛒
+                    <span class="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Apex Style Banners with Proper Images -->
+    <div class="w-full bg-gray-100 mb-6 overflow-hidden">
+        {% if gender == 'Men' %}
+        <div class="relative max-w-7xl mx-auto h-60 sm:h-96 flex items-center px-6 sm:px-8 bg-slate-900 text-white">
+            <div class="z-10 max-w-lg">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-red-500">Home / Men Collection</span>
+                <h1 class="text-2xl sm:text-5xl font-black mt-2 text-amber-400">Unmatched STYLE</h1>
+                <p class="text-[11px] sm:text-xs text-gray-300 mt-2">Explore our premium men's footwear collection designed for comfort and elegance.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=1200&q=80" class="absolute right-0 h-full w-3/5 object-cover opacity-70" alt="Men Banner">
+        </div>
+        {% elif gender == 'Women' %}
+        <div class="relative max-w-7xl mx-auto h-60 sm:h-96 flex items-center px-6 sm:px-8 bg-slate-900 text-white">
+            <div class="z-10 max-w-lg">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-pink-400">Home / Women Collection</span>
+                <h1 class="text-2xl sm:text-5xl font-black mt-2 text-pink-300">Effortless Confidence</h1>
+                <p class="text-[11px] sm:text-xs text-gray-300 mt-2">Step out in style with our latest exclusive women's heels, sandals, and casual shoes.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?auto=format&fit=crop&w=1200&q=80" class="absolute right-0 h-full w-3/5 object-cover opacity-70" alt="Women Banner">
+        </div>
+        {% elif gender == 'Kids' %}
+        <div class="relative max-w-7xl mx-auto h-60 sm:h-96 flex items-center px-6 sm:px-8 bg-sky-900 text-white">
+            <div class="z-10 max-w-lg">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-sky-300">Home / Kids Collection</span>
+                <h1 class="text-2xl sm:text-5xl font-black mt-2 text-amber-300">Playful Footsteps</h1>
+                <p class="text-[11px] sm:text-xs text-gray-200 mt-2">Comfortable, durable, and colorful shoes for your little ones.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?auto=format&fit=crop&w=1200&q=80" class="absolute right-0 h-full w-3/5 object-cover opacity-70" alt="Kids Banner">
+        </div>
+        {% else %}
+        <div class="relative max-w-7xl mx-auto h-60 sm:h-96 flex items-center px-6 sm:px-8 bg-slate-900 text-white">
+            <div class="z-10 max-w-lg">
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-red-500">Shakil Boot House Store</span>
+                <h1 class="text-2xl sm:text-5xl font-black mt-2 text-amber-400">Step Into Ultimate Comfort</h1>
+                <p class="text-[11px] sm:text-xs text-gray-300 mt-2">Discover quality footwear for men, women, and kids with best prices.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?auto=format&fit=crop&w=1200&q=80" class="absolute right-0 h-full w-3/5 object-cover opacity-70" alt="Default Banner">
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-4 grid grid-cols-1 lg:grid-cols-4 gap-8 flex-grow">
+        
+        <!-- Mobile Filter Toggle Button -->
+        <div class="block lg:hidden col-span-full">
+            <button onclick="toggleFilters()" class="w-full bg-gray-900 text-white font-bold py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 shadow">
+                <span>⚙️ Filter Products (Sizes, Brands & Colors)</span>
+            </button>
+        </div>
+
+        <!-- Sidebar Filters (Collapsible on Mobile, Fixed on Desktop) -->
+        <aside id="filterSidebar" class="space-y-6 pr-4 border-r border-gray-100 hidden lg:block col-span-full lg:col-span-1 bg-white p-4 lg:p-0 rounded-lg shadow-lg lg:shadow-none border lg:border-none mb-4 lg:mb-0">
+            <!-- Gender List -->
+            <div class="border-b pb-4">
+                <div class="flex flex-col space-y-2 text-sm">
+                    <a href="/" class="hover:text-red-600 font-medium {{ 'text-red-600 font-bold' if not gender else 'text-gray-600' }}">All Products</a>
+                    <a href="/?gender=Men" class="hover:text-red-600 font-medium {{ 'text-red-600 font-bold' if gender == 'Men' else 'text-gray-600' }}">Men</a>
+                    <a href="/?gender=Women" class="hover:text-red-600 font-medium {{ 'text-red-600 font-bold' if gender == 'Women' else 'text-gray-600' }}">Women</a>
+                    <a href="/?gender=Kids" class="hover:text-red-600 font-medium {{ 'text-red-600 font-bold' if gender == 'Kids' else 'text-gray-600' }}">Kids</a>
+                </div>
+            </div>
+
+            <!-- Size Filter -->
+            <div class="border-b pb-4">
+                <h3 class="font-bold text-sm uppercase text-gray-900 mb-3">Size</h3>
+                <div class="grid grid-cols-4 gap-2">
+                    {% for s in available_sizes %}
+                    <a href="/?gender={{ gender }}&brand={{ brand }}&size={{ s }}" class="border text-center py-1.5 text-xs font-bold rounded hover:border-red-600 hover:text-red-600 transition {{ 'bg-red-600 text-white border-red-600' if selected_size == s else 'bg-white text-gray-700 border-gray-200' }}">{{ s }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Color Filter -->
+            <div class="border-b pb-4">
+                <h3 class="font-bold text-sm uppercase text-gray-900 mb-3">Color</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% for c in colors_list %}
+                    <a href="/?gender={{ gender }}&brand={{ brand }}&color={{ c }}" class="text-xs px-3 py-1.5 rounded-lg border transition font-medium {{ 'bg-red-600 text-white border-red-600' if selected_color == c else 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100' }}">{{ c }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Brand Filter -->
+            <div class="border-b pb-4">
+                <h3 class="font-bold text-sm uppercase text-gray-900 mb-3">Brand</h3>
+                <div class="space-y-2 text-sm max-h-48 overflow-y-auto pr-1">
+                    {% for b in brands_list %}
+                        {% if gender == 'Kids' and b != 'Chinese' %}
+                            {# Skip non-chinese for kids #}
+                        {% elif b in ['Bata', 'Apex'] %}
+                            {# Skip Bata and Apex everywhere #}
+                        {% else %}
+                        <a href="/?gender={{ gender }}&brand={{ b }}" class="flex items-center space-x-2 text-gray-700 hover:text-red-600">
+                            <span class="w-4 h-4 border rounded flex items-center justify-center {{ 'bg-red-600 border-red-600 text-white text-[10px]' if brand == b else 'border-gray-300' }}">{% if brand == b %}✓{% endif %}</span>
+                            <span class="{{ 'font-bold text-red-600' if brand == b else '' }}">{{ b }}</span>
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <a href="/" class="block text-center text-xs bg-gray-900 text-white font-bold py-2.5 rounded-lg hover:bg-gray-800 transition">Clear All Filters</a>
+            </div>
+        </aside>
+
+        <!-- Products Grid -->
+        <section class="lg:col-span-3 col-span-full">
+            <div class="flex justify-between items-center mb-6 pb-2 border-b">
+                <h2 class="text-lg sm:text-xl font-black uppercase text-gray-900">
+                    {% if gender %}{{ gender }} Collection{% else %}Featured Collection{% endif %}
+                </h2>
+                <span class="text-xs text-gray-500 font-bold">Showing {{ products | length }} items</span>
+            </div>
+
+            <!-- Responsive 2 columns on mobile, 3 columns on desktop -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
+                {% for product in products %}
+                <div class="bg-white rounded-lg border border-gray-100 hover:shadow-xl transition flex flex-col justify-between group overflow-hidden product-card">
+                    <a href="/product/{{ product.id }}" class="block">
+                        <div class="relative bg-gray-50 h-40 sm:h-56 overflow-hidden">
+                            <img src="{{ product.img }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                            {% if product.get('discount_pct', 0) > 0 %}
+                            <span class="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded">-{{ product.discount_pct }}%</span>
+                            {% endif %}
+                        </div>
+                        <div class="p-3 sm:p-4">
+                            <p class="text-[10px] sm:text-[11px] uppercase tracking-wider text-amber-600 font-bold truncate">{{ product.brand }} | {{ product.gender }}</p>
+                            <h4 class="text-xs sm:text-sm font-bold text-gray-900 mt-1 line-clamp-1 hover:text-red-600 transition">{{ product.name }}</h4>
+                            
+                            <!-- Product Code -->
+                            <p class="text-[10px] sm:text-[11px] text-gray-500 font-mono mb-2">code: <span class="font-bold text-gray-800">{{ product.product_code }}</span></p>
+                            
+                            <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                                {% if product.get('discount_pct', 0) > 0 %}
+                                    {% set discounted_price = product.price * (1 - product.discount_pct / 100) %}
+                                    <span class="text-sm sm:text-base font-black text-gray-900">৳{{ discounted_price | int }}</span>
+                                    <span class="text-[11px] sm:text-xs text-gray-400 line-through">৳{{ product.price }}</span>
+                                {% else %}
+                                    <span class="text-sm sm:text-base font-black text-gray-900">৳{{ product.price }}</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="text-[10px] sm:text-[11px] text-gray-500 space-y-0.5 hidden sm:block">
+                                <p><strong>Colors:</strong> {{ product.colors | join(', ') }}</p>
+                                <p><strong>Sizes:</strong> {{ product.sizes | join(', ') }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% else %}
+                <div class="col-span-full text-center py-20 text-gray-400 font-medium text-base">
+                    No footwear products found matching this filter!
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <!-- Script to toggle mobile filters -->
+    <script>
+        function toggleFilters() {
+            const sidebar = document.getElementById('filterSidebar');
+            if (sidebar.classList.contains('hidden')) {
+                sidebar.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('hidden');
+            }
+        }
+    </script>
+
+    <!-- Professional E-Commerce Footer -->
+    <footer class="bg-slate-900 text-gray-300 pt-12 pb-6 mt-16 border-t border-slate-800 text-sm">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            
+            <!-- About Store -->
+            <div>
+                <h3 class="text-white font-bold text-base mb-3 uppercase tracking-wider text-amber-400">Shakil Boot House</h3>
+                <p class="text-xs text-gray-400 leading-relaxed mb-4">
+                    আপনার আস্থার একটি নির্ভরযোগ্য জুতার দোকান। পুরুষ, নারী এবং শিশুদের জন্য সেরা মানের জুতা সাশ্রয়ী মূল্যে প্রদান করাই আমাদের লক্ষ্য।
+                </p>
+                <p class="text-xs text-amber-400 font-semibold leading-relaxed">📍 ঠিকানা: জাহাজ কোম্পানী মোড়, দেওয়ান বাড়ি রোড, সওদাগর মার্কেট, রংপুর</p>
+            </div>
+
+            <!-- Store Hours & Support -->
+            <div>
+                <h3 class="text-white font-bold text-sm mb-3 uppercase tracking-wider">শপ খোলা ও বন্ধের সময়</h3>
+                <p class="text-xs text-gray-400 mb-2"><strong>খোলা থাকে:</strong> শনি থেকে বৃহস্পতিবার (সকাল ১০টা - রাত ১০টা)</p>
+                <p class="text-xs text-red-400 mb-3 font-semibold"><strong>শুক্রবার:</strong> সম্পূর্ণ বন্ধ (সাপ্তাহিক ছুটি)</p>
+                <p class="text-xs text-gray-400"><strong>ইমার্জেন্সি হটলাইন / কন্টাক্ট:</strong><br><span class="text-white font-bold text-sm">01704575036</span></p>
+            </div>
+
+            <!-- Payment Method -->
+            <div>
+                <h3 class="text-white font-bold text-sm mb-3 uppercase tracking-wider">পেমেন্ট পদ্ধতি</h3>
+                <p class="text-xs text-gray-400 mb-3">আমরা বর্তমানে শুধুমাত্র নিরাপদ ক্যাশ অন ডেলিভারি (Cash on Delivery) প্রদান করছি। পণ্য হাতে পেয়ে মূল্য পরিশোধ করুন।</p>
+                <div class="inline-block bg-emerald-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow">
+                    💵 Cash on Delivery Only
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Copyright Bottom Bar -->
+        <div class="max-w-7xl mx-auto px-6 border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
+            <p>&copy; 2026 Shakil Boot House. All rights reserved.</p>
+            <p class="mt-2 sm:mt-0">Developed with Flask & Tailwind CSS</p>
+        </div>
+    </footer>
+
+</body>
+</html>

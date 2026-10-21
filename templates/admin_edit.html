@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product - Shakil Boot House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <header class="bg-slate-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-amber-400">Edit Product Wizard</h1>
+            <a href="/admin/manage" class="text-sm bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700 font-medium">Back to Manage Products</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-8">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-lg font-bold mb-4 text-slate-900 border-b pb-2">
+                Edit Product: <span class="text-amber-600">{{ product.name }}</span> ({{ product.gender }})
+            </h2>
+
+            <form action="/admin/product/edit/{{ product.id }}" method="POST" class="space-y-4">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Code</label>
+                        <input type="text" name="product_code" value="{{ product.product_code }}" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Name</label>
+                        <input type="text" name="name" value="{{ product.name }}" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Brand</label>
+                        <select name="brand" required class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-amber-500">
+                            {% for b in brands %}
+                            <option value="{{ b }}" {% if product.brand == b %}selected{% endif %}>{{ b }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Price (BDT)</label>
+                        <input type="number" name="price" value="{{ product.price }}" required class="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Discount Percentage (%)</label>
+                        <select name="discount_pct" class="w-full border rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:border-amber-500">
+                            {% for pct in [0, 5, 10, 15, 20, 25, 30] %}
+                            <option value="{{ pct }}" {% if product.get('discount_pct', 0) == pct %}selected{% endif %}>{{ pct }}% Off</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Multiple Colors Selection -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Select Colors</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 border p-3 rounded-lg bg-gray-50">
+                        {% for col in colors %}
+                        <label class="flex items-center space-x-2 text-sm">
+                            <input type="checkbox" name="colors" value="{{ col }}" {% if col in product.colors %}checked{% endif %} class="rounded text-amber-500">
+                            <span>{{ col }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Sizes Selection (Dynamic Checkboxes with Select All) -->
+                <div>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="block text-xs font-semibold uppercase text-gray-600">Sizes Selection ({{ product.gender }})</label>
+                        <label class="flex items-center space-x-1 text-xs font-bold text-amber-600 cursor-pointer">
+                            <input type="checkbox" id="selectAllSizes" onclick="toggleAllSizes(this)" class="rounded text-amber-500">
+                            <span>Select All Sizes</span>
+                        </label>
+                    </div>
+                    <div class="grid grid-cols-4 sm:grid-cols-9 gap-2 border p-3 rounded-lg bg-gray-50">
+                        {% set available_sizes = ["21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35"] if product.gender == 'Kids' else ["36", "37", "38", "39", "40", "41", "42", "43", "44"] %}
+                        {% for s in available_sizes %}
+                        <label class="flex items-center space-x-1.5 text-sm">
+                            <input type="checkbox" name="sizes" value="{{ s }}" {% if s in product.sizes %}checked{% endif %} class="size-checkbox rounded text-amber-500 focus:ring-amber-400">
+                            <span>{{ s }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-xl hover:bg-amber-400 shadow transition">Update Product</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function toggleAllSizes(source) {
+            checkboxes = document.getElementsByClassName('size-checkbox');
+            for(let i=0; i<checkboxes.length; i++) {
+                checkboxes[i].checked = source.checked;
+            }
+        }
+    </script>
+
+</body>
+</html>

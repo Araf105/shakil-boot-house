@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discount Policy - Shakil Boot House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <header class="bg-slate-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-amber-400">Discount Policy & Global Offers</h1>
+            <a href="/admin/manage" class="text-sm bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700 font-medium">Back to Manage Products</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-8">
+        <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-lg font-bold text-slate-900 mb-6 border-b pb-3">Configure Store Discount Offers</h2>
+
+            <form action="/admin/discount-policy" method="POST" class="space-y-6">
+                
+                <!-- Discount Percentage Selection -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-2">Select Discount Percentage</label>
+                    <div class="flex gap-4">
+                        {% for pct in [0, 5, 10, 15, 20, 25, 30] %}
+                        <label class="flex items-center space-x-1.5 border px-4 py-2 rounded-lg cursor-pointer bg-gray-50 hover:bg-amber-50">
+                            <input type="radio" name="discount_pct" value="{{ pct }}" {% if loop.first %}checked{% endif %} class="text-amber-500 focus:ring-amber-400">
+                            <span class="font-bold text-sm">{{ pct }}%</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Apply Type: All or Manual -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-2">Apply Scope</label>
+                    <div class="flex gap-6 mb-4">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="discount_type" value="all" checked onclick="toggleManual(false)" class="text-amber-500">
+                            <span class="font-medium text-sm">Apply to ALL Products</span>
+                        </label>
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="radio" name="discount_type" value="manual" onclick="toggleManual(true)" class="text-amber-500">
+                            <span class="font-medium text-sm">Select Products Manually</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Manual Product Selection Box -->
+                <div id="manualProductBox" class="hidden border rounded-xl p-4 bg-gray-50 max-h-60 overflow-y-auto space-y-2">
+                    <p class="text-xs font-bold text-gray-500 uppercase mb-2">Check products to apply discount:</p>
+                    {% for product in products %}
+                    <label class="flex items-center justify-between p-2 bg-white rounded border hover:bg-amber-50/50 cursor-pointer text-sm">
+                        <div class="flex items-center space-x-3">
+                            <input type="checkbox" name="product_ids" value="{{ product.id }}" class="rounded text-amber-500">
+                            <span class="font-semibold text-amber-600">[{{ product.product_code }}]</span>
+                            <span class="text-gray-800 font-medium">{{ product.name }}</span>
+                        </div>
+                        <span class="text-xs text-gray-500">Current Discount: <strong>{{ product.get('discount_pct', 0) }}%</strong></span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                <button type="submit" class="w-full bg-amber-500 text-slate-900 font-bold py-3 rounded-xl hover:bg-amber-400 shadow transition">Update Discount Policy</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        function toggleManual(show) {
+            const box = document.getElementById('manualProductBox');
+            if(show) {
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

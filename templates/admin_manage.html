@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products - Shakil Boot House</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-amber-400">Manage Products - Shakil Boot House</h1>
+            <div class="flex gap-3">
+                <a href="/admin/discount-policy" class="text-sm bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-500 font-bold transition">🏷️ Discount Policy</a>
+                <a href="/admin" class="text-sm bg-gray-800 px-4 py-2 rounded-lg hover:bg-gray-700 font-medium">Back to Dashboard</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        
+        <!-- Left Sidebar: Gender, Category & Brand Filter Navigation -->
+        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 h-fit space-y-4">
+            <h3 class="font-bold text-slate-900 border-b pb-2">Filter by Gender</h3>
+            <div class="flex flex-col space-y-2">
+                <a href="/admin/manage?gender=Men" class="px-4 py-2 rounded-lg font-medium transition {{ 'bg-amber-500 text-slate-900 font-bold shadow' if gender == 'Men' else 'bg-gray-50 hover:bg-gray-100 text-gray-700' }}">Men Footwear</a>
+                <a href="/admin/manage?gender=Women" class="px-4 py-2 rounded-lg font-medium transition {{ 'bg-amber-500 text-slate-900 font-bold shadow' if gender == 'Women' else 'bg-gray-50 hover:bg-gray-100 text-gray-700' }}">Women Footwear</a>
+                <a href="/admin/manage?gender=Kids" class="px-4 py-2 rounded-lg font-medium transition {{ 'bg-amber-500 text-slate-900 font-bold shadow' if gender == 'Kids' else 'bg-gray-50 hover:bg-gray-100 text-gray-700' }}">Kids Footwear</a>
+            </div>
+
+            {% if gender %}
+            <h3 class="font-bold text-slate-900 border-b pb-2 pt-2">Categories ({{ gender }})</h3>
+            <div class="flex flex-col space-y-1">
+                <a href="/admin/manage?gender={{ gender }}" class="text-xs px-3 py-1.5 rounded-lg font-semibold {{ 'bg-slate-900 text-white' if not category else 'hover:bg-gray-100 text-gray-600' }}">All Categories</a>
+                {% for sub in categories_data.get(gender, []) %}
+                <a href="/admin/manage?gender={{ gender }}&category={{ sub }}&brand={{ brand }}" class="text-xs px-3 py-1.5 rounded-lg transition {{ 'bg-slate-900 text-white font-semibold' if category == sub else 'hover:bg-gray-100 text-gray-600' }}">{{ sub }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Brand Filter Section -->
+            <h3 class="font-bold text-slate-900 border-b pb-2 pt-2">Filter by Brand</h3>
+            <div class="flex flex-col space-y-1 max-h-40 overflow-y-auto">
+                <a href="/admin/manage?gender={{ gender }}&category={{ category }}" class="text-xs px-3 py-1.5 rounded-lg font-semibold {{ 'bg-slate-900 text-white' if not brand else 'hover:bg-gray-100 text-gray-600' }}">All Brands</a>
+                {% for b in brands_list %}
+                <a href="/admin/manage?gender={{ gender }}&category={{ category }}&brand={{ b }}" class="text-xs px-3 py-1.5 rounded-lg transition {{ 'bg-slate-900 text-white font-semibold' if brand == b else 'hover:bg-gray-100 text-gray-600' }}">{{ b }}</a>
+                {% endfor %}
+            </div>
+
+            <div class="pt-2">
+                <a href="/admin/manage" class="block text-center text-xs bg-gray-200 text-gray-700 font-bold py-2 rounded-lg hover:bg-gray-300 transition">Reset All Filters</a>
+            </div>
+        </div>
+
+        <!-- Right Side: Products Table -->
+        <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h2 class="text-md font-bold text-slate-900">
+                    Products Inventory 
+                    <span class="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full ml-2">Total: {{ products | length }}</span>
+                </h2>
+                <a href="/admin/add" class="bg-amber-500 text-slate-900 font-bold px-4 py-2 rounded-lg text-sm hover:bg-amber-400 shadow transition">➕ Add New Product</a>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 text-xs uppercase text-gray-500 font-semibold border-b">
+                            <th class="p-3">Image</th>
+                            <th class="p-3">Code & Name</th>
+                            <th class="p-3">Category</th>
+                            <th class="p-3">Brand</th>
+                            <th class="p-3">Price & Discount</th>
+                            <th class="p-3">Colors & Sizes</th>
+                            <th class="p-3 text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 text-sm">
+                        {% for product in products %}
+                        <tr class="hover:bg-gray-50/50 transition">
+                            <td class="p-3">
+                                <img src="{{ product.img }}" alt="Shoe" class="w-14 h-14 object-cover rounded-lg border shadow-sm">
+                            </td>
+                            <td class="p-3">
+                                <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">{{ product.product_code }}</span>
+                                <div class="font-medium text-gray-900 mt-1">{{ product.name }}</div>
+                            </td>
+                            <td class="p-3 text-gray-600 text-xs">
+                                <span class="font-bold text-slate-800">{{ product.gender }}</span><br>
+                                <span class="text-gray-500">{{ product.sub_category }}</span>
+                            </td>
+                            <td class="p-3 font-semibold text-slate-700">{{ product.brand }}</td>
+                            <td class="p-3">
+                                <span class="font-bold text-slate-900">৳{{ product.price }}</span>
+                                {% if product.get('discount_pct', 0) > 0 %}
+                                <span class="block text-xs font-semibold text-emerald-600">(-{{ product.discount_pct }}% Off)</span>
+                                {% endif %}
+                            </td>
+                            <td class="p-3 text-xs text-gray-600 space-y-1">
+                                <span class="block"><strong>Colors:</strong> {{ product.colors | join(', ') }}</span>
+                                <span class="block"><strong>Sizes:</strong> {{ product.sizes | join(', ') }}</span>
+                            </td>
+                            <td class="p-3 text-center space-x-1">
+                                <a href="/admin/product/edit/{{ product.id }}" class="inline-block bg-blue-50 text-blue-600 border border-blue-200 px-2.5 py-1 rounded-md text-xs font-bold hover:bg-blue-600 hover:text-white transition">Edit</a>
+                                <a href="/admin/product/delete/{{ product.id }}" onclick="return confirm('Are you sure you want to delete this product?')" class="inline-block bg-red-50 text-red-600 border border-red-200 px-2.5 py-1 rounded-md text-xs font-bold hover:bg-red-600 hover:text-white transition">Delete</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-12 text-gray-400 font-medium">No products found for this selection!</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+</body>
+</html>
